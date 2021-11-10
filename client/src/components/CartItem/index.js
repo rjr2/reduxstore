@@ -1,11 +1,11 @@
 import React from 'react';
-import { store } from "../../utils/store";
+import { useStoreContext } from "../../utils/GlobalState";
 import { REMOVE_FROM_CART, UPDATE_CART_QUANTITY } from "../../utils/actions";
 import { idbPromise } from "../../utils/helpers";
 
 const CartItem = ({ item }) => {
 
-  const [, dispatch] = store();
+  const [, dispatch] = useStoreContext();
 
   const removeFromCart = item => {
     dispatch({

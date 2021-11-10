@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import {useDispatch, useSelector} from 'react-redux';
-import Cart from '../components/Cart';
 
+import Cart from '../components/Cart';
+import { useStoreContext } from '../utils/GlobalState';
 import {
   REMOVE_FROM_CART,
   UPDATE_CART_QUANTITY,
@@ -15,8 +15,7 @@ import { idbPromise } from '../utils/helpers';
 import spinner from '../assets/spinner.gif';
 
 function Detail() {
-  const dispatch = useDispatch();
-  const state = useSelector(state => state);
+  const [state, dispatch] = useStoreContext();
   const { id } = useParams();
 
   const [currentProduct, setCurrentProduct] = useState({});
@@ -26,11 +25,11 @@ function Detail() {
   const { products, cart } = state;
 
   useEffect(() => {
-    
+    // already in global store
     if (products.length) {
       setCurrentProduct(products.find((product) => product._id === id));
     }
-    
+    // retrieved from server
     else if (data) {
       dispatch({
         type: UPDATE_PRODUCTS,
